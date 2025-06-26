@@ -2,6 +2,7 @@
 
 import { MaturityLevel, MATURITY_LEVELS } from "@/types/assessment";
 import { useState } from "react";
+import MaturityLevelVisualization from "./MaturityLevelVisualization";
 
 interface SelfAssessmentStepProps {
   onNext: (selectedLevel: MaturityLevel) => void;
@@ -22,6 +23,10 @@ export default function SelfAssessmentStep({
     }
   };
 
+  const handleLevelSelect = (level: MaturityLevel) => {
+    setSelectedLevel(level);
+  };
+
   return (
     <div className="animate-fade-in">
       <div className="text-center mb-8">
@@ -34,48 +39,14 @@ export default function SelfAssessmentStep({
         </p>
       </div>
 
-      <div className="grid gap-4 max-w-4xl mx-auto">
-        {MATURITY_LEVELS.map((level, index) => (
-          <div
-            key={level.name}
-            className={`card cursor-pointer transition-all duration-200 hover:shadow-md ${
-              selectedLevel === level.name
-                ? "ring-2 ring-primary-500 border-primary-300"
-                : "hover:border-primary-200"
-            }`}
-            onClick={() => setSelectedLevel(level.name)}
-          >
-            <div className="flex items-center space-x-4">
-              <div
-                className={`w-12 h-12 rounded-full ${level.color} flex items-center justify-center text-white text-xl font-bold`}
-              >
-                {index + 1}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-secondary-900 mb-1">
-                  {level.name}
-                </h3>
-                <p className="text-secondary-600 text-sm">
-                  {level.description}
-                </p>
-              </div>
-              <div className="text-2xl">{level.icon}</div>
-              <div
-                className={`w-5 h-5 rounded-full border-2 ${
-                  selectedLevel === level.name
-                    ? "border-primary-500 bg-primary-500"
-                    : "border-secondary-300"
-                }`}
-              >
-                {selectedLevel === level.name && (
-                  <div className="w-full h-full rounded-full bg-white border border-primary-500 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary-500"></div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* Interactive Maturity Level Visualization */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <MaturityLevelVisualization
+          selectedLevel={selectedLevel || undefined}
+          onLevelSelect={handleLevelSelect}
+          showSelection={true}
+          className="mb-6"
+        />
       </div>
 
       <div className="flex justify-between items-center mt-8">
