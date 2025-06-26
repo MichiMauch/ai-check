@@ -37,6 +37,65 @@ export interface CompanyInfo {
   companySize: CompanySize;
 }
 
+export interface AIProduct {
+  id: string;
+  name: string;
+  subtitle: string;
+  description: string;
+  pricing: string;
+  timeline: string;
+  targetMaturityLevels: MaturityLevel[];
+  targetIndustries: Industry[];
+  targetCompanySizes: CompanySize[];
+}
+
+export const AI_PRODUCTS: AIProduct[] = [
+  {
+    id: 'experience-day',
+    name: 'AI Experience Day',
+    subtitle: 'HANDS-ON AI WORKSHOP FOR TEAMS',
+    description: 'Empower your team with practical AI knowledge. Our interactive workshop combines hands-on learning, experimentation, and strategic planning to unlock AI opportunities in your organization.',
+    pricing: 'From CHF 1,000',
+    timeline: '0.5 - 1 day',
+    targetMaturityLevels: ['Digital AI Resister', 'Digital AI Explorer'],
+    targetIndustries: ['Automotive', 'Banking & Finance', 'Beratung & Consulting', 'Bildung & Forschung', 'Chemie & Pharma', 'Einzelhandel', 'Energie & Umwelt', 'Gesundheitswesen', 'IT & Software', 'Logistik & Transport', 'Maschinenbau', 'Medien & Marketing', 'Öffentliche Verwaltung', 'Produktion & Fertigung', 'Telekommunikation', 'Tourismus & Gastronomie', 'Versicherung', 'Sonstige'],
+    targetCompanySizes: ['Kleinstunternehmen (1-9 Mitarbeiter)', 'Kleinunternehmen (10-49 Mitarbeiter)', 'Mittleres Unternehmen (50-249 Mitarbeiter)']
+  },
+  {
+    id: 'innovation-sprint',
+    name: 'AI Innovation Sprint',
+    subtitle: 'BUILT WITH AI, DELIVERED IN 5 DAYS',
+    description: 'We use AI to accelerate development and embed intelligence into your MVP from day one. Your prototype isn\'t just functional—it\'s smart.',
+    pricing: 'CHF 15,000',
+    timeline: '5 days',
+    targetMaturityLevels: ['Digital AI Explorer', 'Digital AI Player'],
+    targetIndustries: ['IT & Software', 'Medien & Marketing', 'Beratung & Consulting', 'Banking & Finance', 'Einzelhandel'],
+    targetCompanySizes: ['Kleinunternehmen (10-49 Mitarbeiter)', 'Mittleres Unternehmen (50-249 Mitarbeiter)', 'Großunternehmen (250-999 Mitarbeiter)']
+  },
+  {
+    id: 'custom-chat-ui',
+    name: 'Custom Chat UI',
+    subtitle: 'ENTERPRISE RAG SOLUTIONS',
+    description: 'Transform your knowledge into an AI assistant. We build RAG systems that understand your business and deliver accurate, contextual responses.',
+    pricing: 'From CHF 25,000',
+    timeline: '2-3 weeks',
+    targetMaturityLevels: ['Digital AI Player', 'Digital AI Transformer'],
+    targetIndustries: ['Banking & Finance', 'Beratung & Consulting', 'Gesundheitswesen', 'IT & Software', 'Öffentliche Verwaltung', 'Versicherung'],
+    targetCompanySizes: ['Mittleres Unternehmen (50-249 Mitarbeiter)', 'Großunternehmen (250-999 Mitarbeiter)', 'Konzern (1000+ Mitarbeiter)']
+  },
+  {
+    id: 'custom-ai-solutions',
+    name: 'Custom AI Solutions',
+    subtitle: 'INTELLIGENCE-FIRST DEVELOPMENT',
+    description: 'We don\'t just add AI to your solution—we design with AI at the core. Every feature is enhanced by intelligence, creating exponential value.',
+    pricing: 'Custom pricing',
+    timeline: 'Flexible',
+    targetMaturityLevels: ['Digital AI Transformer', 'Digital AI Disrupter'],
+    targetIndustries: ['Automotive', 'Banking & Finance', 'Chemie & Pharma', 'Energie & Umwelt', 'Gesundheitswesen', 'IT & Software', 'Maschinenbau', 'Produktion & Fertigung', 'Telekommunikation'],
+    targetCompanySizes: ['Großunternehmen (250-999 Mitarbeiter)', 'Konzern (1000+ Mitarbeiter)']
+  }
+];
+
 export interface Question {
   id: number;
   level: MaturityLevel;

@@ -4,11 +4,14 @@ Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehm
 
 ## 🚀 Features
 
+- **Firmenprofil**: Branche und Unternehmensgröße für personalisierte Empfehlungen
 - **Selbsteinschätzung**: Spontane Auswahl einer von fünf AI-Maturity-Stufen
 - **15 Assessment-Fragen**: Detaillierte Bewertung auf einer 5-Punkte-Skala
 - **Automatische Auswertung**: Intelligente Berechnung des tatsächlichen Reifegrads
-- **Personalisierte Insights**: Vergleich zwischen Selbst- und berechneter Einschätzung
-- **Handlungsempfehlungen**: Konkrete nächste Schritte für die AI-Transformation
+- **AI-Powered Empfehlungen**: GPT-basierte, personalisierte Handlungsempfehlungen
+- **Produktempfehlungen**: Maßgeschneiderte Lösungsvorschläge basierend auf Assessment
+- **Tastatur-Navigation**: Schnelle Eingabe mit Zifferntasten 1-5
+- **Responsive Design**: Optimiert für alle Geräte
 
 ## 🏗️ Technologie-Stack
 

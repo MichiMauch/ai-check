@@ -62,13 +62,19 @@ CMD ["npm", "start"]
 
 ## 🔧 Umgebungsvariablen
 
-Falls Sie später eine GPT-API Integration hinzufügen:
+Für die AI-gestützten Empfehlungen benötigen Sie:
 
 ```env
 # .env.local
-OPENAI_API_KEY=your_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4
 NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
 ```
+
+**Wichtig:** 
+- Das Tool verwendet GPT-4 für hochwertige Empfehlungen
+- Stellen Sie sicher, dass Ihr OpenAI Account Zugriff auf GPT-4 hat
+- GPT-4 bietet deutlich bessere, kontextuelle Analysen als GPT-3.5
 
 ## 📊 Performance
 

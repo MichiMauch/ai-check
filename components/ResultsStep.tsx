@@ -2,6 +2,7 @@
 
 import { AssessmentResult, MATURITY_LEVELS } from '@/types/assessment';
 import { BarChart3, Target, TrendingUp, CheckCircle } from '@/components/icons';
+import AIRecommendations from '@/components/AIRecommendations';
 
 interface ResultsStepProps {
   result: AssessmentResult;
@@ -43,7 +44,22 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           </div>
         </div>
 
-        {/* Score Overview */}
+        {/* Company Information */}
+        <div className="card">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
+            🏢 Ihr Unternehmensprofil
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm text-secondary-600">Branche:</span>
+              <div className="font-medium text-secondary-900">{result.company_info.industry}</div>
+            </div>
+            <div>
+              <span className="text-sm text-secondary-600">Unternehmensgröße:</span>
+              <div className="font-medium text-secondary-900">{result.company_info.companySize}</div>
+            </div>
+          </div>
+        </div>
         <div className="card">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold text-secondary-900 flex items-center">
@@ -69,7 +85,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           </div>
         </div>
 
-        {/* Level Comparison */}
+        {/* Score Overview */}
         <div className="grid md:grid-cols-2 gap-6">
           <div className="card">
             <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
@@ -125,10 +141,14 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           </p>
         </div>
 
-        {/* Next Steps */}
+        {/* Detailed AI Recommendations */}
+        {/* AI-Powered Recommendations */}
+        <AIRecommendations result={result} />
+
+        {/* Original Next Steps for Reference */}
         <div className="card">
           <h3 className="text-lg font-semibold text-secondary-900 mb-4">
-            🎯 Empfohlene nächste Schritte
+            🎯 Basis-Empfehlungen
           </h3>
           <p className="text-secondary-700 leading-relaxed">
             {result.next_steps}
