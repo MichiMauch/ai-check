@@ -45,7 +45,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
             </div>
             <div>
               <span className="text-sm text-secondary-600">
-                Unternehmensgröße:
+                Unternehmensgrösse:
               </span>
               <div className="font-medium text-secondary-900">
                 {result.company_info.companySize}
@@ -68,7 +68,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
             </div>
             <div>
               <span className="text-sm text-secondary-600">
-                Unternehmensgröße:
+                Unternehmensgrösse:
               </span>
               <div className="font-medium text-secondary-900">
                 {result.company_info.companySize}

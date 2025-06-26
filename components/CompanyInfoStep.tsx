@@ -106,7 +106,7 @@ export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
           </div>
         </div>
 
-        {/* Firmengröße */}
+        {/* Firmengrösse */}
         <div className="card">
           <h3 className="text-lg font-semibold text-secondary-900 mb-4">
             Wie groß ist Ihr Unternehmen?

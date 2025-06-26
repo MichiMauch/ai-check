@@ -52,7 +52,7 @@ Erstelle eine ausführliche, strukturierte Empfehlung (ca. 400-500 Wörter) die 
 
 1. **Aktuelle Situation**: Bewertung des aktuellen AI-Reifegrads
 2. **Branchenkontext**: Spezifische AI-Trends und Herausforderungen in der ${result.company_info.industry} Branche
-3. **Größenspezifische Strategie**: Empfehlungen passend zur Unternehmensgröße (${result.company_info.companySize})
+3. **Grössenspezifische Strategie**: Empfehlungen passend zur Unternehmensgrösse (${result.company_info.companySize})
 4. **Konkrete nächste Schritte**: 3-4 prioritäre Handlungsempfehlungen
 5. **Zeitrahmen**: Realistische Meilensteine für die nächsten 6-12 Monate
 6. **Risiken & Chancen**: Was passiert bei Handeln vs. Nicht-Handeln${includeProducts && recommendedProducts.length > 0 ? `

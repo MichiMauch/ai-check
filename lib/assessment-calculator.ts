@@ -126,14 +126,14 @@ export class AssessmentCalculator {
         industryAddition = ' Identifizieren Sie AI-Anwendungsfälle, die spezifisch für Ihre Branche relevant sind.';
     }
 
-    // Größenspezifische Ergänzungen
+    // Grössenspezifische Ergänzungen
     let sizeAddition = '';
     if (companyInfo.companySize.includes('Kleinstunternehmen') || companyInfo.companySize.includes('Kleinunternehmen')) {
       sizeAddition = ' Als kleineres Unternehmen starten Sie mit kostengünstigen SaaS-AI-Lösungen und externen Partnerschaften.';
     } else if (companyInfo.companySize.includes('Konzern')) {
       sizeAddition = ' Als Konzern können Sie in eigene AI-Teams investieren und komplexe, unternehmensweite AI-Initiativen umsetzen.';
     } else {
-      sizeAddition = ' Nutzen Sie Ihre Größe für gezielte Pilotprojekte und den schrittweisen Aufbau interner AI-Kompetenz.';
+      sizeAddition = ' Nutzen Sie Ihre Grösse für gezielte Pilotprojekte und den schrittweisen Aufbau interner AI-Kompetenz.';
     }
 
     return baseSteps + industryAddition + sizeAddition;

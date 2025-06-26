@@ -4,7 +4,7 @@ export class AIRecommendationEngine {
   static generateRecommendations(result: AssessmentResult): AIProduct[] {
     const { company_info, calculated_level } = result;
     
-    // Filter Produkte basierend auf Maturity Level, Branche und Firmengröße
+    // Filter Produkte basierend auf Maturity Level, Branche und Firmengrösse
     const relevantProducts = AI_PRODUCTS.filter(product => {
       const matchesMaturity = product.targetMaturityLevels.includes(calculated_level);
       const matchesIndustry = product.targetIndustries.includes(company_info.industry);
@@ -32,7 +32,7 @@ export class AIRecommendationEngine {
     // Branchenspezifische Ergänzungen
     recommendation += this.getIndustrySpecificAdvice(company_info.industry, calculated_level);
     
-    // Größenspezifische Empfehlungen
+    // Grössenspezifische Empfehlungen
     recommendation += this.getCompanySizeAdvice(company_info.companySize, calculated_level);
     
     return recommendation;
