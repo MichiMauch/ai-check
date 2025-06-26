@@ -1,7 +1,7 @@
 "use client";
 
-import { AssessmentResult, MATURITY_LEVELS } from "@/types/assessment";
-import { BarChart3, Target, TrendingUp, CheckCircle } from "@/components/icons";
+import { AssessmentResult, MATURITY_LEVELS, AI_PRODUCTS, AIProduct } from "@/types/assessment";
+import { TrendingUp, CheckCircle } from "@/components/icons";
 import AIRecommendations from "@/components/AIRecommendations";
 import MaturityLevelVisualization from "@/components/MaturityLevelVisualization";
 
@@ -19,6 +19,29 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
   );
 
   const progressPercentage = (result.score / 75) * 100;
+
+  // Filter passende Produkte basierend auf Assessment
+  const getRecommendedProducts = (): AIProduct[] => {
+    return AI_PRODUCTS.filter((product) => {
+      const matchesMaturity = product.targetMaturityLevels.includes(
+        result.calculated_level
+      );
+      const matchesIndustry = product.targetIndustries.includes(
+        result.company_info.industry
+      );
+      const matchesSize = product.targetCompanySizes.includes(
+        result.company_info.companySize
+      );
+
+      // Mindestens 2 von 3 Kriterien müssen erfüllt sein
+      const matchCount = [matchesMaturity, matchesIndustry, matchesSize].filter(
+        Boolean
+      ).length;
+      return matchCount >= 2;
+    });
+  };
+
+  const recommendedProducts = getRecommendedProducts();
 
   return (
     <div className="animate-fade-in">
@@ -60,147 +83,106 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           <h3 className="text-lg font-semibold text-secondary-900 mb-6">
             📊 Ihr AI-Reifegrad im Überblick
           </h3>
+          
+          {/* Progress Bar direkt unter dem Titel */}
+          <div className="mb-6">
+            <div className="flex justify-between text-sm text-secondary-600 mb-2">
+              <span>AI-Maturity Progress</span>
+              <span className="font-medium text-primary-600">{result.score}/75 Punkte ({Math.round(progressPercentage)}%)</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+              <div
+                className="h-4 rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-primary-500 to-primary-600"
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
+          </div>
+
           <MaturityLevelVisualization
             calculatedLevel={result.calculated_level}
             selfAssessment={result.self_assessment}
             showSelection={false}
             className="mb-4"
           />
-          <div className="mt-6 p-4 bg-primary-50 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-semibold text-primary-900">
-                  Ihr Ergebnis: {result.calculated_level}
-                </h4>
-                <p className="text-primary-700 text-sm">
-                  Score: {result.score}/75 Punkte ({Math.round(progressPercentage)}%)
-                </p>
-              </div>
-              <div className="text-3xl">
-                {levelInfo?.icon}
-              </div>
-            </div>
-            {result.self_assessment !== result.calculated_level && (
-              <div className="mt-3 pt-3 border-t border-primary-200">
-                <p className="text-primary-700 text-sm">
-                  <strong>Ihre ursprüngliche Einschätzung:</strong> {result.self_assessment}<br/>
-                  <strong>Delta:</strong> {result.delta}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Comparison: Self-Assessment vs Calculated */}
-        <div className="card">
-          <h3 className="text-lg font-semibold text-secondary-900 mb-6 flex items-center">
-            🔄 Vergleich: Einschätzung vs. Bewertung
-          </h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="relative">
-              <div className="absolute -top-2 -left-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">1</span>
+          {/* Insights direkt unter der Visualisierung */}
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-start space-x-2">
+              <TrendingUp className="w-4 h-4 text-secondary-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <h5 className="font-medium text-secondary-900 text-sm mb-1">Insights zu Ihrer Einschätzung</h5>
+                <p className="text-secondary-700 text-sm leading-relaxed">{result.insight}</p>
               </div>
-              <div className="border-2 border-orange-200 rounded-lg p-4 bg-orange-50">
-                <h4 className="font-semibold text-orange-900 mb-2 flex items-center">
-                  <Target className="w-5 h-5 mr-2" />
-                  Ihre ursprüngliche Selbsteinschätzung
-                </h4>
-                <div className="flex items-center space-x-3">
-                  <div
-                    className={`w-12 h-12 rounded-full ${selfLevelInfo?.color} flex items-center justify-center text-white text-xl shadow-lg`}
-                  >
-                    {selfLevelInfo?.icon}
-                  </div>
-                  <div>
-                    <div className="font-bold text-orange-900 text-lg">
-                      {result.self_assessment}
-                    </div>
-                    <div className="text-sm text-orange-700">
-                      {selfLevelInfo?.description}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute -top-2 -left-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">2</span>
-              </div>
-              <div className="border-2 border-green-200 rounded-lg p-4 bg-green-50">
-                <h4 className="font-semibold text-green-900 mb-2 flex items-center">
-                  <CheckCircle className="w-5 h-5 mr-2" />
-                  Berechneter Reifegrad
-                </h4>
-                <div className="flex items-center space-x-3">
-                  <div
-                    className={`w-12 h-12 rounded-full ${levelInfo?.color} flex items-center justify-center text-white text-xl shadow-lg`}
-                  >
-                    {levelInfo?.icon}
-                  </div>
-                  <div>
-                    <div className="font-bold text-green-900 text-lg">
-                      {result.calculated_level}
-                    </div>
-                    <div className="text-sm text-green-700">
-                      {levelInfo?.description}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Delta Explanation */}
-          <div className="mt-6 p-4 border border-secondary-200 rounded-lg bg-secondary-50">
-            <h4 className="font-semibold text-secondary-900 mb-2">
-              💡 Was bedeutet dieser Unterschied?
-            </h4>
-            <p className="text-secondary-700 text-sm leading-relaxed">
-              {result.delta}
-            </p>
-            <div className="mt-3 text-xs text-secondary-600">
-              <strong>Hinweis:</strong> Die Bewertung basiert auf Ihren Antworten zu konkreten AI-Praktiken in Ihrem Unternehmen.
             </div>
           </div>
         </div>
-        <div className="card">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-secondary-900 flex items-center">
-              <BarChart3 className="w-6 h-6 mr-2 text-primary-600" />
-              Ihr AI-Maturity Score
+
+        {/* Product Recommendations */}
+        {recommendedProducts.length > 0 && (
+          <div className="card">
+            <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
+              🎯 Empfohlene Lösungen für Sie
             </h3>
-            <div className="text-3xl font-bold text-primary-600">
-              {result.score}/75
+
+            <div className="space-y-4">
+              {recommendedProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="border border-secondary-200 rounded-lg p-4 hover:border-primary-300 transition-colors"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-secondary-900">
+                        {product.name}
+                      </h4>
+                      <p className="text-sm text-primary-600 font-medium">
+                        {product.subtitle}
+                      </p>
+                    </div>
+                    <div className="text-right text-sm text-secondary-600">
+                      <div className="font-medium">{product.pricing}</div>
+                      <div>{product.timeline}</div>
+                    </div>
+                  </div>
+
+                  <p className="text-secondary-700 text-sm mb-3 leading-relaxed">
+                    {product.description}
+                  </p>
+
+                  <div className="flex justify-between items-center">
+                    <div className="flex space-x-2">
+                      {product.targetMaturityLevels.includes(
+                        result.calculated_level
+                      ) && (
+                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
+                          ✓ Passt zu Ihrem Reifegrad
+                        </span>
+                      )}
+                      {product.targetIndustries.includes(
+                        result.company_info.industry
+                      ) && (
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                          ✓ Branchenspezifisch
+                        </span>
+                      )}
+                      {product.targetCompanySizes.includes(
+                        result.company_info.companySize
+                      ) && (
+                        <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">
+                          ✓ Passende Grösse
+                        </span>
+                      )}
+                    </div>
+
+                    <button className="btn btn-primary btn-sm">
+                      Mehr erfahren
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-
-          <div className="mb-4">
-            <div className="flex justify-between text-sm text-secondary-600 mb-2">
-              <span>AI-Maturity Progress</span>
-              <span>{Math.round(progressPercentage)}%</span>
-            </div>
-            <div className="w-full bg-secondary-200 rounded-full h-3">
-              <div
-                className={`h-3 rounded-full transition-all duration-500 ${
-                  levelInfo?.color || "bg-primary-600"
-                }`}
-                style={{ width: `${progressPercentage}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Insights */}
-        <div className="card">
-          <h3 className="text-lg font-semibold text-secondary-900 mb-4 flex items-center">
-            <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
-            Insights zu Ihrer Einschätzung
-          </h3>
-          <p className="text-secondary-700 leading-relaxed">{result.insight}</p>
-        </div>
+        )}
 
         {/* AI-Powered Recommendations */}
         <AIRecommendations result={result} />

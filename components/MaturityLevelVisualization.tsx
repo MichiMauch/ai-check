@@ -232,6 +232,28 @@ export default function MaturityLevelVisualization({
           </div>
         </div>
       </div>
+      
+      {/* Legende - nur anzeigen wenn nicht showSelection */}
+      {!showSelection && (calculatedLevel || selfAssessment) && (
+        <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+          {selfAssessment && (
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">1</span>
+              </div>
+              <span className="text-gray-700">Ihre ursprüngliche Selbsteinschätzung</span>
+            </div>
+          )}
+          {calculatedLevel && (
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">2</span>
+              </div>
+              <span className="text-gray-700">Berechneter Reifegrad</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

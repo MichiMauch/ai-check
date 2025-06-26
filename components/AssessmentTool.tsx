@@ -24,6 +24,8 @@ export default function AssessmentTool() {
   );
   const [assessmentResult, setAssessmentResult] =
     useState<AssessmentResult | null>(null);
+  const [startTime] = useState<number>(Date.now());
+  const [assessmentId, setAssessmentId] = useState<string | null>(null);
 
   const handleCompanyInfoNext = (info: CompanyInfo) => {
     setCompanyInfo(info);
@@ -35,7 +37,7 @@ export default function AssessmentTool() {
     setCurrentStep("questions");
   };
 
-  const handleQuestionsNext = (answers: AssessmentAnswer[]) => {
+  const handleQuestionsNext = async (answers: AssessmentAnswer[]) => {
     if (selfAssessment && companyInfo) {
       const result = AssessmentCalculator.calculateResult(
         selfAssessment,
@@ -43,6 +45,36 @@ export default function AssessmentTool() {
         companyInfo
       );
       setAssessmentResult(result);
+
+      // Assessment in Datenbank speichern
+      try {
+        const completionTimeMs = Date.now() - startTime;
+        const answerScores = answers.map(a => a.score);
+
+        const response = await fetch('/api/assessments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            result,
+            answers: answerScores,
+            completionTimeMs,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setAssessmentId(data.assessmentId);
+          console.log('Assessment gespeichert:', data.assessmentId);
+        } else {
+          console.warn('Assessment konnte nicht gespeichert werden');
+        }
+      } catch (error) {
+        console.warn('Fehler beim Speichern des Assessments:', error);
+        // Fortfahren ohne Datenbankfehler zu zeigen
+      }
+
       setCurrentStep("results");
     }
   };

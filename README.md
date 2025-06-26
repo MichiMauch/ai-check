@@ -1,6 +1,6 @@
 # AI Maturity Checker
 
-Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehmens im Bereich Künstliche Intelligenz (AI).
+Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehmens im Bereich Künstliche Intelligenz (AI) mit umfassendem Datenmanagement.
 
 ## 🚀 Features
 
@@ -10,6 +10,8 @@ Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehm
 - **Automatische Auswertung**: Intelligente Berechnung des tatsächlichen Reifegrads
 - **AI-Powered Empfehlungen**: GPT-basierte, personalisierte Handlungsempfehlungen
 - **Produktempfehlungen**: Maßgeschneiderte Lösungsvorschläge basierend auf Assessment
+- **Lead-Management**: E-Mail-Gate mit automatischer Lead-Speicherung
+- **Datenbank-Integration**: Vollständige Speicherung aller Assessments und Analytics
 - **Tastatur-Navigation**: Schnelle Eingabe mit Zifferntasten 1-5
 - **Responsive Design**: Optimiert für alle Geräte
 
@@ -18,7 +20,18 @@ Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehm
 - **Next.js 14** mit App Router
 - **React 18** mit TypeScript
 - **Tailwind CSS** für modernes, responsives Design
-- **Lucide React** für Icons (optional)
+- **Turso Database** (SQLite/LibSQL) für Edge-Computing
+- **Drizzle ORM** für Type-Safe Database Operations
+- **OpenAI GPT-4** für AI-Empfehlungen
+- **Lucide React** für Icons
+
+## 🗄️ Datenbank-Features
+
+- **Assessment-Tracking**: Vollständige Speicherung aller Durchläufe
+- **Lead-Management**: E-Mail-Leads mit Metadaten und Status
+- **Analytics**: Umfassende Statistiken und Auswertungen
+- **Session-Tracking**: Fortschritt und Resume-Funktionalität
+- **Edge-Database**: Geringe Latenz durch Turso
 
 ## 📊 AI-Maturity-Stufen
 
@@ -36,13 +49,26 @@ Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehm
    npm install
    ```
 
-2. **Development Server starten:**
+2. **Umgebungsvariablen einrichten:**
+
+   ```bash
+   cp .env.local.example .env.local
+   # Bearbeiten Sie .env.local mit Ihren API-Keys
+   ```
+
+3. **Datenbank initialisieren:**
+
+   ```bash
+   npm run db:push
+   ```
+
+4. **Development Server starten:**
 
    ```bash
    npm run dev
    ```
 
-3. **Öffnen Sie den Browser:**
+5. **Öffnen Sie den Browser:**
    ```
    http://localhost:3000
    ```
