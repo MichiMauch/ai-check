@@ -31,11 +31,13 @@ Ein interaktives Tool zur Einschätzung des digitalen Reifegrads eines Unternehm
 ## 🚦 Installation & Start
 
 1. **Dependencies installieren:**
+
    ```bash
    npm install
    ```
 
 2. **Development Server starten:**
+
    ```bash
    npm run dev
    ```
@@ -69,18 +71,23 @@ ai-check/
 ## 🎯 Funktionsweise
 
 ### 1. Selbsteinschätzung
+
 Der Nutzer wählt spontan eine AI-Maturity-Stufe aus, die sein Unternehmen am besten beschreibt.
 
 ### 2. Assessment-Fragen
+
 15 sorgfältig ausgewählte Fragen (je 3 pro Maturity-Stufe) werden auf einer Skala von 1-5 bewertet.
 
 ### 3. Automatische Auswertung
+
 - Summierung aller Antworten (max. 75 Punkte)
 - Zuordnung zur entsprechenden AI-Maturity-Stufe
 - Berechnung der Abweichung zur Selbsteinschätzung
 
 ### 4. Ergebnisse & Insights
+
 Strukturierte Ausgabe mit:
+
 - Berechneter Reifegrad vs. Selbsteinschätzung
 - Detaillierte Insights zur Abweichung
 - Konkrete Handlungsempfehlungen
@@ -89,6 +96,7 @@ Strukturierte Ausgabe mit:
 ## 📱 Responsive Design
 
 Das Tool ist vollständig responsive und für mobile Nutzung optimiert:
+
 - Moderne, klare Benutzeroberfläche
 - Schritt-für-Schritt-Nutzerführung mit Fortschrittsanzeige
 - Dezente Animationen für besseres Nutzererlebnis
@@ -97,23 +105,28 @@ Das Tool ist vollständig responsive und für mobile Nutzung optimiert:
 ## 🔧 Anpassungen
 
 ### Fragen erweitern
+
 Neue Assessment-Fragen können in `types/assessment.ts` hinzugefügt werden.
 
 ### Bewertungslogik anpassen
+
 Die Berechnungslogik befindet sich in `lib/assessment-calculator.ts`.
 
 ### Design customizen
+
 Tailwind-Konfiguration in `tailwind.config.js` anpassen.
 
 ## 🚀 Deployment
 
 ### Vercel (empfohlen)
+
 ```bash
 npm run build
 npx vercel
 ```
 
 ### Andere Plattformen
+
 ```bash
 npm run build
 npm start

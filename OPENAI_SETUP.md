@@ -23,6 +23,7 @@ cp .env.local.example .env.local
 ### 3. Produktions-Deployment
 
 #### Vercel
+
 ```bash
 # Über CLI
 vercel env add OPENAI_API_KEY
@@ -34,7 +35,9 @@ vercel env add OPENAI_API_KEY
 ```
 
 #### Andere Plattformen
+
 Fügen Sie die Umgebungsvariable in Ihrem Hosting-Dashboard hinzu:
+
 - **Netlify**: Site settings > Environment variables
 - **Railway**: Variables tab
 - **Docker**: docker run -e OPENAI_API_KEY=...
@@ -43,19 +46,21 @@ Fügen Sie die Umgebungsvariable in Ihrem Hosting-Dashboard hinzu:
 
 ```javascript
 // In .env.local können Sie das Modell anpassen:
-OPENAI_MODEL=gpt-3.5-turbo  // Günstiger (Standard)
+OPENAI_MODEL = gpt - 3.5 - turbo; // Günstiger (Standard)
 // oder
-OPENAI_MODEL=gpt-4          // Teurer, aber bessere Qualität
+OPENAI_MODEL = gpt - 4; // Teurer, aber bessere Qualität
 ```
 
 ### 5. Fallback-Verhalten
 
 **Ohne API Key:**
+
 - Tool funktioniert trotzdem vollständig
 - Zeigt statische, regelbasierte Empfehlungen
 - Benutzer sieht Hinweis "Fallback-Modus"
 
 **Mit API Key:**
+
 - Personalisierte, kontextuelle AI-Empfehlungen
 - Branchenspezifische Insights
 - Dynamische Produktempfehlungen

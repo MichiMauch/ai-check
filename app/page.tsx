@@ -1,5 +1,5 @@
-import AssessmentTool from '@/components/AssessmentTool'
+import AssessmentTool from "@/components/AssessmentTool";
 
 export default function Home() {
-  return <AssessmentTool />
+  return <AssessmentTool />;
 }

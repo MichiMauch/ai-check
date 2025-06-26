@@ -6,12 +6,14 @@
 
 1. **Vercel Account**: Gehen Sie zu [vercel.com](https://vercel.com) und melden Sie sich mit GitHub an
 
-2. **Repository importieren**: 
+2. **Repository importieren**:
+
    - Klicken Sie auf "New Project"
    - Wählen Sie `MichiMauch/ai-check` Repository aus
    - Klicken Sie auf "Import"
 
 3. **Konfiguration**:
+
    - **Framework Preset**: Next.js (wird automatisch erkannt)
    - **Build Command**: `npm run build` (Standard)
    - **Output Directory**: `.next` (Standard)
@@ -34,21 +36,23 @@ vercel
 ## 🌐 Andere Deployment Optionen
 
 ### Netlify
+
 1. Repository mit Netlify verbinden
 2. Build Command: `npm run build`
 3. Publish Directory: `out`
 4. Zusätzlich in `next.config.js`:
    ```js
    const nextConfig = {
-     output: 'export',
+     output: "export",
      trailingSlash: true,
      images: {
-       unoptimized: true
-     }
-   }
+       unoptimized: true,
+     },
+   };
    ```
 
 ### Docker
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -71,7 +75,8 @@ OPENAI_MODEL=gpt-4
 NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
 ```
 
-**Wichtig:** 
+**Wichtig:**
+
 - Das Tool verwendet GPT-4 für hochwertige Empfehlungen
 - Stellen Sie sicher, dass Ihr OpenAI Account Zugriff auf GPT-4 hat
 - GPT-4 bietet deutlich bessere, kontextuelle Analysen als GPT-3.5
@@ -79,8 +84,9 @@ NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
 ## 📊 Performance
 
 Das Tool ist optimiert für:
+
 - **First Contentful Paint**: < 1.5s
-- **Lighthouse Score**: 95+ 
+- **Lighthouse Score**: 95+
 - **Mobile-friendly**: Vollständig responsive
 - **SEO**: Optimierte Meta-Tags
 

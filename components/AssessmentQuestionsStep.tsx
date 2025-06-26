@@ -1,39 +1,45 @@
-'use client';
+"use client";
 
-import { ASSESSMENT_QUESTIONS, AssessmentAnswer } from '@/types/assessment';
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from '@/components/icons';
+import { ASSESSMENT_QUESTIONS, AssessmentAnswer } from "@/types/assessment";
+import { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "@/components/icons";
 
 interface AssessmentQuestionsStepProps {
   onNext: (answers: AssessmentAnswer[]) => void;
   onBack: () => void;
 }
 
-export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQuestionsStepProps) {
+export default function AssessmentQuestionsStep({
+  onNext,
+  onBack,
+}: AssessmentQuestionsStepProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<AssessmentAnswer[]>([]);
 
-  const handleAnswerChange = useCallback((score: number) => {
-    const questionId = ASSESSMENT_QUESTIONS[currentQuestion].id;
-    const newAnswers = answers.filter(a => a.questionId !== questionId);
-    newAnswers.push({ questionId, score });
-    setAnswers(newAnswers);
+  const handleAnswerChange = useCallback(
+    (score: number) => {
+      const questionId = ASSESSMENT_QUESTIONS[currentQuestion].id;
+      const newAnswers = answers.filter((a) => a.questionId !== questionId);
+      newAnswers.push({ questionId, score });
+      setAnswers(newAnswers);
 
-    // Automatisch zur nächsten Frage oder zum Ergebnis
-    setTimeout(() => {
-      if (currentQuestion < ASSESSMENT_QUESTIONS.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        // Alle Fragen beantwortet - zur Auswertung
-        const finalAnswers = [...newAnswers];
-        onNext(finalAnswers);
-      }
-    }, 300); // Kurze Verzögerung für visuelles Feedback
-  }, [currentQuestion, answers, onNext]);
+      // Automatisch zur nächsten Frage oder zum Ergebnis
+      setTimeout(() => {
+        if (currentQuestion < ASSESSMENT_QUESTIONS.length - 1) {
+          setCurrentQuestion(currentQuestion + 1);
+        } else {
+          // Alle Fragen beantwortet - zur Auswertung
+          const finalAnswers = [...newAnswers];
+          onNext(finalAnswers);
+        }
+      }, 300); // Kurze Verzögerung für visuelles Feedback
+    },
+    [currentQuestion, answers, onNext]
+  );
 
   const getCurrentAnswer = () => {
     const questionId = ASSESSMENT_QUESTIONS[currentQuestion].id;
-    return answers.find(a => a.questionId === questionId)?.score || null;
+    return answers.find((a) => a.questionId === questionId)?.score || null;
   };
 
   const handlePrevious = useCallback(() => {
@@ -52,27 +58,27 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       const key = event.key;
-      
+
       // Nur auf Zifferntasten 1-5 reagieren
-      if (['1', '2', '3', '4', '5'].includes(key)) {
+      if (["1", "2", "3", "4", "5"].includes(key)) {
         const score = parseInt(key);
         handleAnswerChange(score);
         event.preventDefault(); // Verhindert andere Aktionen
       }
-      
+
       // Optional: Pfeil-Tasten für Navigation
-      if (event.key === 'ArrowLeft' && currentQuestion > 0) {
+      if (event.key === "ArrowLeft" && currentQuestion > 0) {
         handlePrevious();
         event.preventDefault();
       }
     };
 
     // Event Listener hinzufügen
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     // Cleanup beim Unmount
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, [currentQuestion, handleAnswerChange, handlePrevious]); // Alle Abhängigkeiten
 
@@ -90,11 +96,13 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
       {/* Progress Bar */}
       <div className="max-w-2xl mx-auto mb-8">
         <div className="flex justify-between text-sm text-secondary-600 mb-2">
-          <span>Frage {currentQuestion + 1} von {ASSESSMENT_QUESTIONS.length}</span>
+          <span>
+            Frage {currentQuestion + 1} von {ASSESSMENT_QUESTIONS.length}
+          </span>
           <span>{Math.round(progress)}% abgeschlossen</span>
         </div>
         <div className="w-full bg-secondary-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-primary-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           ></div>
@@ -119,14 +127,22 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
               <span>Trifft gar nicht zu</span>
               <span>Trifft voll zu</span>
             </div>
-            
+
             {/* Tastatur-Hinweis */}
             <div className="text-center mb-4">
               <p className="text-xs text-secondary-500">
-                💡 Tipp: Verwenden Sie die Tasten <kbd className="px-1 py-0.5 text-xs bg-secondary-100 rounded border">1</kbd> bis <kbd className="px-1 py-0.5 text-xs bg-secondary-100 rounded border">5</kbd> für schnelle Eingabe
+                💡 Tipp: Verwenden Sie die Tasten{" "}
+                <kbd className="px-1 py-0.5 text-xs bg-secondary-100 rounded border">
+                  1
+                </kbd>{" "}
+                bis{" "}
+                <kbd className="px-1 py-0.5 text-xs bg-secondary-100 rounded border">
+                  5
+                </kbd>{" "}
+                für schnelle Eingabe
               </p>
             </div>
-            
+
             <div className="flex justify-center space-x-4">
               {[1, 2, 3, 4, 5].map((score) => (
                 <div key={score} className="relative">
@@ -134,8 +150,8 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
                     onClick={() => handleAnswerChange(score)}
                     className={`w-12 h-12 rounded-full border-2 transition-all duration-200 flex items-center justify-center font-semibold hover:scale-110 active:scale-95 ${
                       getCurrentAnswer() === score
-                        ? 'border-primary-500 bg-primary-500 text-white shadow-lg'
-                        : 'border-secondary-300 hover:border-primary-400 hover:bg-primary-50 hover:shadow-md'
+                        ? "border-primary-500 bg-primary-500 text-white shadow-lg"
+                        : "border-secondary-300 hover:border-primary-400 hover:bg-primary-50 hover:shadow-md"
                     }`}
                   >
                     {score}
@@ -149,7 +165,7 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
                 </div>
               ))}
             </div>
-            
+
             <div className="flex justify-between text-xs text-secondary-500 px-1">
               <span>1</span>
               <span>2</span>
@@ -175,7 +191,8 @@ export default function AssessmentQuestionsStep({ onNext, onBack }: AssessmentQu
               {answers.length} von {ASSESSMENT_QUESTIONS.length} beantwortet
             </span>
             <div className="text-xs text-secondary-500 mt-1">
-              Wählen Sie eine Bewertung - die nächste Frage erscheint automatisch
+              Wählen Sie eine Bewertung - die nächste Frage erscheint
+              automatisch
             </div>
           </div>
 

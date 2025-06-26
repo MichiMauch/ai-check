@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { AssessmentResult, MATURITY_LEVELS } from '@/types/assessment';
-import { BarChart3, Target, TrendingUp, CheckCircle } from '@/components/icons';
-import AIRecommendations from '@/components/AIRecommendations';
+import { AssessmentResult, MATURITY_LEVELS } from "@/types/assessment";
+import { BarChart3, Target, TrendingUp, CheckCircle } from "@/components/icons";
+import AIRecommendations from "@/components/AIRecommendations";
 
 interface ResultsStepProps {
   result: AssessmentResult;
@@ -10,9 +10,13 @@ interface ResultsStepProps {
 }
 
 export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
-  const levelInfo = MATURITY_LEVELS.find(l => l.name === result.calculated_level);
-  const selfLevelInfo = MATURITY_LEVELS.find(l => l.name === result.self_assessment);
-  
+  const levelInfo = MATURITY_LEVELS.find(
+    (l) => l.name === result.calculated_level
+  );
+  const selfLevelInfo = MATURITY_LEVELS.find(
+    (l) => l.name === result.self_assessment
+  );
+
   const progressPercentage = (result.score / 75) * 100;
 
   return (
@@ -35,11 +39,17 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <span className="text-sm text-secondary-600">Branche:</span>
-              <div className="font-medium text-secondary-900">{result.company_info.industry}</div>
+              <div className="font-medium text-secondary-900">
+                {result.company_info.industry}
+              </div>
             </div>
             <div>
-              <span className="text-sm text-secondary-600">Unternehmensgröße:</span>
-              <div className="font-medium text-secondary-900">{result.company_info.companySize}</div>
+              <span className="text-sm text-secondary-600">
+                Unternehmensgröße:
+              </span>
+              <div className="font-medium text-secondary-900">
+                {result.company_info.companySize}
+              </div>
             </div>
           </div>
         </div>
@@ -52,11 +62,17 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <span className="text-sm text-secondary-600">Branche:</span>
-              <div className="font-medium text-secondary-900">{result.company_info.industry}</div>
+              <div className="font-medium text-secondary-900">
+                {result.company_info.industry}
+              </div>
             </div>
             <div>
-              <span className="text-sm text-secondary-600">Unternehmensgröße:</span>
-              <div className="font-medium text-secondary-900">{result.company_info.companySize}</div>
+              <span className="text-sm text-secondary-600">
+                Unternehmensgröße:
+              </span>
+              <div className="font-medium text-secondary-900">
+                {result.company_info.companySize}
+              </div>
             </div>
           </div>
         </div>
@@ -70,15 +86,17 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
               {result.score}/75
             </div>
           </div>
-          
+
           <div className="mb-4">
             <div className="flex justify-between text-sm text-secondary-600 mb-2">
               <span>AI-Maturity Progress</span>
               <span>{Math.round(progressPercentage)}%</span>
             </div>
             <div className="w-full bg-secondary-200 rounded-full h-3">
-              <div 
-                className={`h-3 rounded-full transition-all duration-500 ${levelInfo?.color || 'bg-primary-600'}`}
+              <div
+                className={`h-3 rounded-full transition-all duration-500 ${
+                  levelInfo?.color || "bg-primary-600"
+                }`}
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -93,12 +111,18 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
               Ihre Selbsteinschätzung
             </h3>
             <div className="flex items-center space-x-3">
-              <div className={`w-10 h-10 rounded-full ${selfLevelInfo?.color} flex items-center justify-center text-white text-lg`}>
+              <div
+                className={`w-10 h-10 rounded-full ${selfLevelInfo?.color} flex items-center justify-center text-white text-lg`}
+              >
                 {selfLevelInfo?.icon}
               </div>
               <div>
-                <div className="font-medium text-secondary-900">{result.self_assessment}</div>
-                <div className="text-sm text-secondary-600">{selfLevelInfo?.description}</div>
+                <div className="font-medium text-secondary-900">
+                  {result.self_assessment}
+                </div>
+                <div className="text-sm text-secondary-600">
+                  {selfLevelInfo?.description}
+                </div>
               </div>
             </div>
           </div>
@@ -109,22 +133,31 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
               Berechneter Reifegrad
             </h3>
             <div className="flex items-center space-x-3">
-              <div className={`w-10 h-10 rounded-full ${levelInfo?.color} flex items-center justify-center text-white text-lg`}>
+              <div
+                className={`w-10 h-10 rounded-full ${levelInfo?.color} flex items-center justify-center text-white text-lg`}
+              >
                 {levelInfo?.icon}
               </div>
               <div>
-                <div className="font-medium text-secondary-900">{result.calculated_level}</div>
-                <div className="text-sm text-secondary-600">{result.level_description}</div>
+                <div className="font-medium text-secondary-900">
+                  {result.calculated_level}
+                </div>
+                <div className="text-sm text-secondary-600">
+                  {result.level_description}
+                </div>
               </div>
             </div>
-            
-            {result.delta !== '0' && (
-              <div className={`mt-3 p-2 rounded-lg text-sm ${
-                result.delta.startsWith('+') 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-orange-100 text-orange-800'
-              }`}>
-                Abweichung: {result.delta} Stufe{Math.abs(parseInt(result.delta)) > 1 ? 'n' : ''}
+
+            {result.delta !== "0" && (
+              <div
+                className={`mt-3 p-2 rounded-lg text-sm ${
+                  result.delta.startsWith("+")
+                    ? "bg-green-100 text-green-800"
+                    : "bg-orange-100 text-orange-800"
+                }`}
+              >
+                Abweichung: {result.delta} Stufe
+                {Math.abs(parseInt(result.delta)) > 1 ? "n" : ""}
               </div>
             )}
           </div>
@@ -136,9 +169,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
             <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
             Insights zu Ihrer Einschätzung
           </h3>
-          <p className="text-secondary-700 leading-relaxed">
-            {result.insight}
-          </p>
+          <p className="text-secondary-700 leading-relaxed">{result.insight}</p>
         </div>
 
         {/* Detailed AI Recommendations */}
@@ -174,15 +205,13 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
 
         {/* Action Buttons */}
         <div className="text-center space-y-4">
-          <button
-            onClick={onRestart}
-            className="btn btn-primary px-8 py-3"
-          >
+          <button onClick={onRestart} className="btn btn-primary px-8 py-3">
             Neues Assessment starten
           </button>
-          
+
           <div className="text-sm text-secondary-600">
-            Möchten Sie Ihre Ergebnisse mit Ihrem Team teilen oder einen Beratungstermin vereinbaren?
+            Möchten Sie Ihre Ergebnisse mit Ihrem Team teilen oder einen
+            Beratungstermin vereinbaren?
           </div>
         </div>
       </div>
