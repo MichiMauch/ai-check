@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate", 
+    "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:drop": "drizzle-kit drop"
@@ -16,6 +16,7 @@
   "dependencies": {
     "@libsql/client": "^0.15.9",
     "clsx": "^2.0.0",
+    "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.3",
     "drizzle-orm": "^0.44.2",
     "lucide-react": "^0.298.0",
