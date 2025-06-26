@@ -26,6 +26,23 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-6">
+        {/* Company Info */}
+        <div className="card">
+          <h3 className="text-lg font-semibold text-secondary-900 mb-4">
+            📋 Unternehmensprofil
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <span className="text-sm text-secondary-600">Branche:</span>
+              <div className="font-medium text-secondary-900">{result.company_info.industry}</div>
+            </div>
+            <div>
+              <span className="text-sm text-secondary-600">Unternehmensgröße:</span>
+              <div className="font-medium text-secondary-900">{result.company_info.companySize}</div>
+            </div>
+          </div>
+        </div>
+
         {/* Score Overview */}
         <div className="card">
           <div className="flex items-center justify-between mb-6">

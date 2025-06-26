@@ -5,6 +5,38 @@ export type MaturityLevel =
   | 'Digital AI Transformer'
   | 'Digital AI Disrupter';
 
+export type Industry = 
+  | 'Automotive'
+  | 'Banking & Finance'
+  | 'Beratung & Consulting'
+  | 'Bildung & Forschung'
+  | 'Chemie & Pharma'
+  | 'Einzelhandel'
+  | 'Energie & Umwelt'
+  | 'Gesundheitswesen'
+  | 'IT & Software'
+  | 'Logistik & Transport'
+  | 'Maschinenbau'
+  | 'Medien & Marketing'
+  | 'Öffentliche Verwaltung'
+  | 'Produktion & Fertigung'
+  | 'Telekommunikation'
+  | 'Tourismus & Gastronomie'
+  | 'Versicherung'
+  | 'Sonstige';
+
+export type CompanySize = 
+  | 'Kleinstunternehmen (1-9 Mitarbeiter)'
+  | 'Kleinunternehmen (10-49 Mitarbeiter)'
+  | 'Mittleres Unternehmen (50-249 Mitarbeiter)'
+  | 'Großunternehmen (250-999 Mitarbeiter)'
+  | 'Konzern (1000+ Mitarbeiter)';
+
+export interface CompanyInfo {
+  industry: Industry;
+  companySize: CompanySize;
+}
+
 export interface Question {
   id: number;
   level: MaturityLevel;
@@ -17,6 +49,7 @@ export interface AssessmentAnswer {
 }
 
 export interface AssessmentResult {
+  company_info: CompanyInfo;
   self_assessment: MaturityLevel;
   calculated_level: MaturityLevel;
   score: number;

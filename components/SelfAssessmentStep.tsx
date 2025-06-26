@@ -5,9 +5,10 @@ import { useState } from 'react';
 
 interface SelfAssessmentStepProps {
   onNext: (selectedLevel: MaturityLevel) => void;
+  onBack?: () => void;
 }
 
-export default function SelfAssessmentStep({ onNext }: SelfAssessmentStepProps) {
+export default function SelfAssessmentStep({ onNext, onBack }: SelfAssessmentStepProps) {
   const [selectedLevel, setSelectedLevel] = useState<MaturityLevel | null>(null);
 
   const handleNext = () => {
@@ -69,7 +70,18 @@ export default function SelfAssessmentStep({ onNext }: SelfAssessmentStepProps) 
         ))}
       </div>
 
-      <div className="text-center mt-8">
+      <div className="flex justify-between items-center mt-8">
+        {onBack ? (
+          <button
+            onClick={onBack}
+            className="btn btn-secondary px-6 py-2"
+          >
+            Zurück
+          </button>
+        ) : (
+          <div></div>
+        )}
+        
         <button
           onClick={handleNext}
           disabled={!selectedLevel}
@@ -79,6 +91,8 @@ export default function SelfAssessmentStep({ onNext }: SelfAssessmentStepProps) 
         >
           Weiter zum Assessment
         </button>
+        
+        <div></div>
       </div>
     </div>
   );

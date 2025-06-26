@@ -1,19 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { MaturityLevel, AssessmentAnswer, AssessmentResult } from '@/types/assessment';
+import { MaturityLevel, AssessmentAnswer, AssessmentResult, CompanyInfo } from '@/types/assessment';
 import { AssessmentCalculator } from '@/lib/assessment-calculator';
+import CompanyInfoStep from '@/components/CompanyInfoStep';
 import SelfAssessmentStep from '@/components/SelfAssessmentStep';
 import AssessmentQuestionsStep from '@/components/AssessmentQuestionsStep';
 import ResultsStep from '@/components/ResultsStep';
 import { Brain } from '@/components/icons';
 
-type Step = 'self-assessment' | 'questions' | 'results';
+type Step = 'company-info' | 'self-assessment' | 'questions' | 'results';
 
 export default function AssessmentTool() {
-  const [currentStep, setCurrentStep] = useState<Step>('self-assessment');
+  const [currentStep, setCurrentStep] = useState<Step>('company-info');
+  const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
   const [selfAssessment, setSelfAssessment] = useState<MaturityLevel | null>(null);
   const [assessmentResult, setAssessmentResult] = useState<AssessmentResult | null>(null);
+
+  const handleCompanyInfoNext = (info: CompanyInfo) => {
+    setCompanyInfo(info);
+    setCurrentStep('self-assessment');
+  };
 
   const handleSelfAssessmentNext = (selectedLevel: MaturityLevel) => {
     setSelfAssessment(selectedLevel);
@@ -21,8 +28,8 @@ export default function AssessmentTool() {
   };
 
   const handleQuestionsNext = (answers: AssessmentAnswer[]) => {
-    if (selfAssessment) {
-      const result = AssessmentCalculator.calculateResult(selfAssessment, answers);
+    if (selfAssessment && companyInfo) {
+      const result = AssessmentCalculator.calculateResult(selfAssessment, answers, companyInfo);
       setAssessmentResult(result);
       setCurrentStep('results');
     }
@@ -32,17 +39,23 @@ export default function AssessmentTool() {
     setCurrentStep('self-assessment');
   };
 
+  const handleSelfAssessmentBack = () => {
+    setCurrentStep('company-info');
+  };
+
   const handleRestart = () => {
+    setCompanyInfo(null);
     setSelfAssessment(null);
     setAssessmentResult(null);
-    setCurrentStep('self-assessment');
+    setCurrentStep('company-info');
   };
 
   const getStepNumber = () => {
     switch (currentStep) {
-      case 'self-assessment': return 1;
-      case 'questions': return 2;
-      case 'results': return 3;
+      case 'company-info': return 1;
+      case 'self-assessment': return 2;
+      case 'questions': return 3;
+      case 'results': return 4;
       default: return 1;
     }
   };
@@ -62,7 +75,7 @@ export default function AssessmentTool() {
           {/* Progress Indicator */}
           <div className="flex justify-center mt-6">
             <div className="flex items-center space-x-4">
-              {[1, 2, 3].map((step) => (
+              {[1, 2, 3, 4].map((step) => (
                 <div key={step} className="flex items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                     step <= getStepNumber()
@@ -71,7 +84,7 @@ export default function AssessmentTool() {
                   }`}>
                     {step}
                   </div>
-                  {step < 3 && (
+                  {step < 4 && (
                     <div className={`w-12 h-0.5 mx-2 ${
                       step < getStepNumber()
                         ? 'bg-primary-600'
@@ -86,12 +99,15 @@ export default function AssessmentTool() {
           <div className="flex justify-center mt-2">
             <div className="flex space-x-8 text-xs text-secondary-600">
               <span className={getStepNumber() >= 1 ? 'text-primary-600 font-medium' : ''}>
-                Selbsteinschätzung
+                Firmenprofil
               </span>
               <span className={getStepNumber() >= 2 ? 'text-primary-600 font-medium' : ''}>
-                Assessment
+                Selbsteinschätzung
               </span>
               <span className={getStepNumber() >= 3 ? 'text-primary-600 font-medium' : ''}>
+                Assessment
+              </span>
+              <span className={getStepNumber() >= 4 ? 'text-primary-600 font-medium' : ''}>
                 Ergebnisse
               </span>
             </div>
@@ -101,8 +117,15 @@ export default function AssessmentTool() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
+        {currentStep === 'company-info' && (
+          <CompanyInfoStep onNext={handleCompanyInfoNext} />
+        )}
+        
         {currentStep === 'self-assessment' && (
-          <SelfAssessmentStep onNext={handleSelfAssessmentNext} />
+          <SelfAssessmentStep 
+            onNext={handleSelfAssessmentNext}
+            onBack={handleSelfAssessmentBack}
+          />
         )}
         
         {currentStep === 'questions' && (
