@@ -1,33 +1,21 @@
 "use client";
 
 import { Industry, CompanySize, CompanyInfo } from "@/types/assessment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Brain } from "@/components/icons";
 
 interface CompanyInfoStepProps {
   onNext: (companyInfo: CompanyInfo) => void;
+  onBack?: () => void;
 }
 
-const INDUSTRIES: Industry[] = [
-  "Automotive",
-  "Banking & Finance",
-  "Beratung & Consulting",
-  "Bildung & Forschung",
-  "Chemie & Pharma",
-  "Einzelhandel",
-  "Energie & Umwelt",
-  "Gesundheitswesen",
-  "IT & Software",
-  "Logistik & Transport",
-  "Maschinenbau",
-  "Medien & Marketing",
-  "Öffentliche Verwaltung",
-  "Produktion & Fertigung",
-  "Telekommunikation",
-  "Tourismus & Gastronomie",
-  "Versicherung",
-  "Sonstige",
-];
+interface IndustryData {
+  id: string;
+  name: string;
+  displayName: string;
+  isActive: boolean;
+  sortOrder: number;
+}
 
 const COMPANY_SIZES: CompanySize[] = [
   "Kleinstunternehmen (1-9 Mitarbeiter)",
@@ -37,12 +25,38 @@ const COMPANY_SIZES: CompanySize[] = [
   "Konzern (1000+ Mitarbeiter)",
 ];
 
-export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
+export default function CompanyInfoStep({ onNext, onBack }: CompanyInfoStepProps) {
   const [industry, setIndustry] = useState<Industry | "">("");
   const [companySize, setCompanySize] = useState<CompanySize | "">("");
+  const [industries, setIndustries] = useState<IndustryData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Industries von der API laden
+  useEffect(() => {
+    async function loadIndustries() {
+      try {
+        const response = await fetch('/api/industries');
+        const data = await response.json();
+        if (data.success) {
+          setIndustries(data.industries);
+        }
+      } catch (error) {
+        console.error('Error loading industries:', error);
+        // Fallback zu hardcodierten Daten
+        setIndustries([
+          { id: 'it-software', name: 'IT & Software', displayName: 'IT & Software', isActive: true, sortOrder: 1 },
+          { id: 'other', name: 'Sonstige', displayName: 'Sonstige', isActive: true, sortOrder: 99 },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadIndustries();
+  }, []);
 
   const handleNext = () => {
     if (industry && companySize) {
+      // Industry ist jetzt die ID, nicht mehr der Name
       onNext({
         industry: industry as Industry,
         companySize: companySize as CompanySize,
@@ -50,7 +64,7 @@ export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
     }
   };
 
-  const isFormValid = industry !== "" && companySize !== "";
+  const isFormValid = industry !== "" && companySize !== "" && !loading;
 
   return (
     <div className="animate-fade-in">
@@ -82,11 +96,15 @@ export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
               required
             >
               <option value="">Bitte wählen Sie eine Branche...</option>
-              {INDUSTRIES.map((ind) => (
-                <option key={ind} value={ind}>
-                  {ind}
-                </option>
-              ))}
+              {loading ? (
+                <option value="">Lade Branchen...</option>
+              ) : (
+                industries.map((ind) => (
+                  <option key={ind.id} value={ind.id}>
+                    {ind.displayName}
+                  </option>
+                ))
+              )}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
               <svg
@@ -148,8 +166,21 @@ export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
           </div>
         </div>
 
-        {/* Weiter Button */}
-        <div className="text-center pt-6">
+        {/* Buttons */}
+        <div className="flex justify-between items-center pt-6">
+          {/* Back Button */}
+          {onBack ? (
+            <button
+              onClick={onBack}
+              className="btn btn-secondary px-6 py-3"
+            >
+              Zurück
+            </button>
+          ) : (
+            <div></div>
+          )}
+
+          {/* Weiter Button */}
           <button
             onClick={handleNext}
             disabled={!isFormValid}
@@ -159,13 +190,13 @@ export default function CompanyInfoStep({ onNext }: CompanyInfoStepProps) {
           >
             Weiter zur Selbsteinschätzung
           </button>
-
-          {!isFormValid && (
-            <p className="text-sm text-secondary-500 mt-2">
-              Bitte füllen Sie alle Felder aus, um fortzufahren.
-            </p>
-          )}
         </div>
+
+        {!isFormValid && (
+          <p className="text-sm text-secondary-500 mt-4 text-center">
+            Bitte füllen Sie alle Felder aus, um fortzufahren.
+          </p>
+        )}
       </div>
     </div>
   );

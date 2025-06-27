@@ -11,10 +11,12 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "create-admin": "tsx scripts/create-admin.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.15.9",
+    "bcryptjs": "^2.4.3",
     "clsx": "^2.0.0",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.3",
@@ -29,6 +31,7 @@
     "openai": "^4.20.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -38,6 +41,7 @@
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.0.0",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   }
 }

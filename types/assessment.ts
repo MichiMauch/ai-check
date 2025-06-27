@@ -6,24 +6,24 @@ export type MaturityLevel =
   | 'Digital AI Disrupter';
 
 export type Industry = 
-  | 'Automotive'
-  | 'Banking & Finance'
-  | 'Beratung & Consulting'
-  | 'Bildung & Forschung'
-  | 'Chemie & Pharma'
-  | 'Einzelhandel'
-  | 'Energie & Umwelt'
-  | 'Gesundheitswesen'
-  | 'IT & Software'
-  | 'Logistik & Transport'
-  | 'Maschinenbau'
-  | 'Medien & Marketing'
-  | 'Öffentliche Verwaltung'
-  | 'Produktion & Fertigung'
-  | 'Telekommunikation'
-  | 'Tourismus & Gastronomie'
-  | 'Versicherung'
-  | 'Sonstige';
+  | 'automotive'
+  | 'banking-finance'
+  | 'consulting'
+  | 'education'
+  | 'chemical-pharma'
+  | 'retail'
+  | 'energy'
+  | 'healthcare'
+  | 'it-software'
+  | 'logistics'
+  | 'manufacturing'
+  | 'media'
+  | 'public'
+  | 'production'
+  | 'telecom'
+  | 'tourism'
+  | 'insurance'
+  | 'other';
 
 export type CompanySize = 
   | 'Kleinstunternehmen (1-9 Mitarbeiter)'
@@ -58,7 +58,7 @@ export const AI_PRODUCTS: AIProduct[] = [
     pricing: 'From CHF 1,000',
     timeline: '0.5 - 1 day',
     targetMaturityLevels: ['Digital AI Resister', 'Digital AI Explorer'],
-    targetIndustries: ['Automotive', 'Banking & Finance', 'Beratung & Consulting', 'Bildung & Forschung', 'Chemie & Pharma', 'Einzelhandel', 'Energie & Umwelt', 'Gesundheitswesen', 'IT & Software', 'Logistik & Transport', 'Maschinenbau', 'Medien & Marketing', 'Öffentliche Verwaltung', 'Produktion & Fertigung', 'Telekommunikation', 'Tourismus & Gastronomie', 'Versicherung', 'Sonstige'],
+    targetIndustries: ['automotive', 'banking-finance', 'consulting', 'education', 'chemical-pharma', 'retail', 'energy', 'healthcare', 'it-software', 'logistics', 'manufacturing', 'media', 'public', 'production', 'telecom', 'tourism', 'insurance', 'other'],
     targetCompanySizes: ['Kleinstunternehmen (1-9 Mitarbeiter)', 'Kleinunternehmen (10-49 Mitarbeiter)', 'Mittleres Unternehmen (50-249 Mitarbeiter)']
   },
   {
@@ -69,7 +69,7 @@ export const AI_PRODUCTS: AIProduct[] = [
     pricing: 'CHF 15,000',
     timeline: '5 days',
     targetMaturityLevels: ['Digital AI Explorer', 'Digital AI Player'],
-    targetIndustries: ['IT & Software', 'Medien & Marketing', 'Beratung & Consulting', 'Banking & Finance', 'Einzelhandel'],
+    targetIndustries: ['it-software', 'media', 'consulting', 'banking-finance', 'retail'],
     targetCompanySizes: ['Kleinunternehmen (10-49 Mitarbeiter)', 'Mittleres Unternehmen (50-249 Mitarbeiter)', 'Großunternehmen (250-999 Mitarbeiter)']
   },
   {
@@ -80,7 +80,7 @@ export const AI_PRODUCTS: AIProduct[] = [
     pricing: 'From CHF 25,000',
     timeline: '2-3 weeks',
     targetMaturityLevels: ['Digital AI Player', 'Digital AI Transformer'],
-    targetIndustries: ['Banking & Finance', 'Beratung & Consulting', 'Gesundheitswesen', 'IT & Software', 'Öffentliche Verwaltung', 'Versicherung'],
+    targetIndustries: ['banking-finance', 'consulting', 'healthcare', 'it-software', 'public', 'insurance'],
     targetCompanySizes: ['Mittleres Unternehmen (50-249 Mitarbeiter)', 'Großunternehmen (250-999 Mitarbeiter)', 'Konzern (1000+ Mitarbeiter)']
   },
   {
@@ -91,7 +91,7 @@ export const AI_PRODUCTS: AIProduct[] = [
     pricing: 'Custom pricing',
     timeline: 'Flexible',
     targetMaturityLevels: ['Digital AI Transformer', 'Digital AI Disrupter'],
-    targetIndustries: ['Automotive', 'Banking & Finance', 'Chemie & Pharma', 'Energie & Umwelt', 'Gesundheitswesen', 'IT & Software', 'Maschinenbau', 'Produktion & Fertigung', 'Telekommunikation'],
+    targetIndustries: ['automotive', 'banking-finance', 'chemical-pharma', 'energy', 'healthcare', 'it-software', 'manufacturing', 'production', 'telecom'],
     targetCompanySizes: ['Großunternehmen (250-999 Mitarbeiter)', 'Konzern (1000+ Mitarbeiter)']
   }
 ];

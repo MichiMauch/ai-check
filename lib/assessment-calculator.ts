@@ -104,22 +104,22 @@ export class AssessmentCalculator {
     // Branchenspezifische Ergänzungen
     let industryAddition = '';
     switch (companyInfo.industry) {
-      case 'Banking & Finance':
+      case 'banking-finance':
         industryAddition = ' Fokussieren Sie sich auf Fraud Detection, automatisierte Kreditbewertung und Robo-Advisory Services.';
         break;
-      case 'Gesundheitswesen':
+      case 'healthcare':
         industryAddition = ' Priorisieren Sie Diagnose-Unterstützung, Patientendatenanalyse und administrative Automatisierung.';
         break;
-      case 'Einzelhandel':
+      case 'retail':
         industryAddition = ' Implementieren Sie Empfehlungssysteme, Nachfrageprognosen und personalisierte Kundenerlebnisse.';
         break;
-      case 'Produktion & Fertigung':
+      case 'production':
         industryAddition = ' Setzen Sie auf Predictive Maintenance, Qualitätskontrolle und Supply Chain Optimierung.';
         break;
-      case 'IT & Software':
+      case 'it-software':
         industryAddition = ' Nutzen Sie AI für Code-Generierung, automatisierte Tests und intelligente DevOps-Prozesse.';
         break;
-      case 'Automotive':
+      case 'automotive':
         industryAddition = ' Fokus auf autonomes Fahren, Produktionsoptimierung und vernetzte Fahrzeugdienste.';
         break;
       default:

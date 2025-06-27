@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "app/api/use-case-recommendations/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/*/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["fra1"],
+  "env": {
+    "OPENAI_API_KEY": "@openai_api_key",
+    "OPENAI_MODEL": "@openai_model"
+  }
+}

@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     if (email) {
       leadId = await emailLeadService.saveOrUpdateLead(email, {
         assessmentId,
-        industry: result.company_info.industry,
+        industryId: result.company_info.industry, // Jetzt ist es bereits eine ID
         companySize: result.company_info.companySize,
         calculatedLevel: result.calculated_level,
         ipAddress: metadata.ipAddress,

@@ -27,11 +27,6 @@ export default function MaturityLevelVisualization({
     'Digital AI Disrupter'
   ];
 
-  const getStepColor = (level: MaturityLevel) => {
-    const levelInfo = MATURITY_LEVELS.find(l => l.name === level);
-    return levelInfo?.color || 'bg-gray-500';
-  };
-
   const getStepIcon = (level: MaturityLevel) => {
     const levelInfo = MATURITY_LEVELS.find(l => l.name === level);
     return levelInfo?.icon || '🔹';
@@ -51,31 +46,6 @@ export default function MaturityLevelVisualization({
 
   return (
     <div className={`w-full ${className}`}>
-      {/* Legend for Results Page */}
-      {!showSelection && (selfAssessment || calculatedLevel) && (
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">Legende:</h4>
-          <div className="flex flex-wrap gap-4 text-xs">
-            {selfAssessment && (
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">1</span>
-                </div>
-                <span className="text-gray-700">Ihre ursprüngliche Selbsteinschätzung</span>
-              </div>
-            )}
-            {calculatedLevel && (
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">2</span>
-                </div>
-                <span className="text-gray-700">Berechneter Reifegrad (basierend auf Ihren Antworten)</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* Mobile: Vertical Stack */}
       <div className="block md:hidden space-y-3">
         {levelOrder.map((level, index) => {
@@ -96,10 +66,7 @@ export default function MaturityLevelVisualization({
               `}
             >
               <div className="flex items-start space-x-3">
-                <div className={`
-                  w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl
-                  ${getStepColor(level)}
-                `}>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-gray-700 text-xl bg-gray-100 border border-gray-200">
                   {getStepIcon(level)}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -171,10 +138,9 @@ export default function MaturityLevelVisualization({
                 >
                   {/* Step Circle */}
                   <div className={`
-                    relative w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl transition-all duration-200
-                    ${getStepColor(level)}
-                    ${isActive ? 'ring-4 ring-primary-300 scale-110' : ''}
-                    ${showSelection && !isActive ? 'hover:scale-105' : ''}
+                    relative w-16 h-16 rounded-lg flex items-center justify-center text-gray-700 text-2xl bg-gray-100 border border-gray-200 transition-all duration-200
+                    ${isActive ? 'ring-4 ring-primary-300 scale-110 bg-primary-50 border-primary-300' : ''}
+                    ${showSelection && !isActive ? 'hover:scale-105 hover:bg-gray-50' : ''}
                   `}>
                     {getStepIcon(level)}
                     

@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // Meta-Daten sammeln
     const metadata = {
-      industry: result?.company_info?.industry,
+      industryId: result?.company_info?.industry, // Jetzt ist es bereits eine ID
       companySize: result?.company_info?.companySize,
       calculatedLevel: result?.calculated_level,
       ipAddress: getClientIP(request),

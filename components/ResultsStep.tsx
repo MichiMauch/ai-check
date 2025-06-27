@@ -20,6 +20,28 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
 
   const progressPercentage = (result.score / 75) * 100;
 
+  // Industry mapping für lesbare Anzeige
+  const industryMap = {
+    'automotive': 'Automotive',
+    'banking-finance': 'Banking & Finance',
+    'consulting': 'Beratung & Consulting',
+    'education': 'Bildung & Forschung',
+    'chemical-pharma': 'Chemie & Pharma',
+    'retail': 'Einzelhandel',
+    'energy': 'Energie & Umwelt',
+    'healthcare': 'Gesundheitswesen',
+    'it-software': 'IT & Software',
+    'logistics': 'Logistik & Transport',
+    'manufacturing': 'Maschinenbau',
+    'media': 'Medien & Marketing',
+    'public': 'Öffentliche Verwaltung',
+    'production': 'Produktion & Fertigung',
+    'telecom': 'Telekommunikation',
+    'tourism': 'Tourismus & Gastronomie',
+    'insurance': 'Versicherung',
+    'other': 'Sonstige'
+  };
+
   // Filter passende Produkte basierend auf Assessment
   const getRecommendedProducts = (): AIProduct[] => {
     return AI_PRODUCTS.filter((product) => {
@@ -64,7 +86,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
             <div>
               <span className="text-sm text-secondary-600">Branche:</span>
               <div className="font-medium text-secondary-900">
-                {result.company_info.industry}
+                {industryMap[result.company_info.industry] || result.company_info.industry}
               </div>
             </div>
             <div>
@@ -184,7 +206,7 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
           </div>
         )}
 
-        {/* AI-Powered Recommendations */}
+        {/* AI-Powered Recommendations with Integrated Use Cases */}
         <AIRecommendations result={result} />
 
         {/* Original Next Steps for Reference */}
@@ -196,23 +218,6 @@ export default function ResultsStep({ result, onRestart }: ResultsStepProps) {
             {result.next_steps}
           </p>
         </div>
-
-        {/* Level Characteristics */}
-        {levelInfo && (
-          <div className="card">
-            <h3 className="text-lg font-semibold text-secondary-900 mb-4">
-              Charakteristika Ihrer AI-Maturity-Stufe
-            </h3>
-            <ul className="space-y-2">
-              {levelInfo.characteristics.map((characteristic, index) => (
-                <li key={index} className="flex items-start space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-secondary-700">{characteristic}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
         {/* Action Buttons */}
         <div className="text-center space-y-4">

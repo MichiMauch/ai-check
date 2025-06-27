@@ -42,6 +42,7 @@ const convertMarkdownToHtml = (text: string): string => {
 
 export default function AIRecommendations({ result }: AIRecommendationsProps) {
   const [recommendation, setRecommendation] = useState<string>("");
+  const [topUseCases, setTopUseCases] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -64,6 +65,12 @@ export default function AIRecommendations({ result }: AIRecommendationsProps) {
 
     // E-Mail für Lead-Generierung speichern
     try {
+      console.log('Submitting email:', email);
+      
+      // AbortController für Timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 Sekunden
+      
       const response = await fetch('/api/save-email', {
         method: 'POST',
         headers: {
@@ -73,16 +80,32 @@ export default function AIRecommendations({ result }: AIRecommendationsProps) {
           email, 
           result 
         }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+      console.log('Email API response status:', response.status);
+
       if (!response.ok) {
-        console.warn('Email API not available, proceeding with unlock');
+        console.warn('Email API returned error status:', response.status);
+        const errorData = await response.text();
+        console.warn('Error details:', errorData);
       }
       
+      // Immer erfolgreich fortfahren (auch bei API-Fehlern)
       setEmailSubmitted(true);
+      
     } catch (err) {
       // Fallback: auch bei API-Fehler freischalten
-      console.warn('Email API not available:', err);
+      console.warn('Email API call failed:', err);
+      if (err instanceof Error) {
+        console.warn('Error details:', err.message);
+        if (err.name === 'AbortError') {
+          console.warn('Request was aborted due to timeout');
+        }
+      }
+      
+      // Trotzdem freischalten für bessere UX
       setEmailSubmitted(true);
     }
   };
@@ -91,15 +114,12 @@ export default function AIRecommendations({ result }: AIRecommendationsProps) {
     const fetchRecommendation = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/ai-recommendations", {
+        const response = await fetch("/api/ai-recommendations-optimized", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ 
-            result,
-            includeProducts: true // Flag für erweiterte Empfehlungen
-          }),
+          body: JSON.stringify({ result }),
         });
 
         const data = await response.json();
@@ -109,6 +129,9 @@ export default function AIRecommendations({ result }: AIRecommendationsProps) {
         }
 
         setRecommendation(data.recommendation);
+        setTopUseCases(data.topUseCases || []);
+        
+        console.log('AI recommendation generated:', data.meta?.processingTimeMs + 'ms');
       } catch (err) {
         setError("Fehler beim Laden der AI-Empfehlungen");
         console.error("Error fetching AI recommendations:", err);
@@ -201,11 +224,74 @@ export default function AIRecommendations({ result }: AIRecommendationsProps) {
 
             {/* Success Message */}
             {emailSubmitted && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                 <div className="flex items-center">
                   <span className="text-green-800 text-sm">
                     ✅ Vielen Dank! Ihre vollständige Empfehlung wurde freigeschaltet.
                   </span>
+                </div>
+              </div>
+            )}
+
+            {/* Top Use Cases Integration */}
+            {emailSubmitted && topUseCases.length > 0 && (
+              <div className="mt-8 space-y-6">
+                <div className="border-t border-gray-200 pt-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    🎯 Empfohlene AI Use Cases für Ihr Unternehmen
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    {topUseCases.map((rec, index) => (
+                      <div key={rec.useCase.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-semibold text-gray-900">
+                            {index + 1}. {rec.useCase.title}
+                          </h4>
+                          <div className="flex items-center space-x-2">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              rec.useCase.complexity === 'low' ? 'bg-green-100 text-green-800' :
+                              rec.useCase.complexity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {rec.useCase.complexity === 'low' ? 'Einfach' : 
+                               rec.useCase.complexity === 'medium' ? 'Mittel' : 'Komplex'}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-700 text-sm mb-3">{rec.useCase.description}</p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                          <div className="bg-white rounded p-2">
+                            <span className="font-medium text-gray-600">Kosten:</span>
+                            <div className="text-gray-900">
+                              {rec.useCase.estimatedCost.min.toLocaleString()}-{rec.useCase.estimatedCost.max.toLocaleString()} CHF
+                            </div>
+                          </div>
+                          <div className="bg-white rounded p-2">
+                            <span className="font-medium text-gray-600">ROI:</span>
+                            <div className="text-green-600 font-medium">
+                              {rec.useCase.estimatedROI.percentage}% in {rec.useCase.estimatedROI.timeframe}
+                            </div>
+                          </div>
+                          <div className="bg-white rounded p-2">
+                            <span className="font-medium text-gray-600">Umsetzung:</span>
+                            <div className="text-gray-900">{rec.useCase.timeToImplement}</div>
+                          </div>
+                        </div>
+                        
+                        {rec.useCase.benefits && rec.useCase.benefits.length > 0 && (
+                          <div className="mt-3">
+                            <span className="font-medium text-gray-600 text-xs">Hauptvorteile:</span>
+                            <div className="text-xs text-gray-700 mt-1">
+                              {rec.useCase.benefits.slice(0, 3).join(' • ')}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
